@@ -39,69 +39,6 @@ from tensorflow.keras.optimizers import RMSprop, Adam, SGD
 from keras import regularizers
 from keras.callbacks import CSVLogger, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 
-!pip install opendatasets --upgrade --quiet
-
-import opendatasets as od
-
-dataset_url = "https://www.kaggle.com/xhlulu/140k-real-and-fake-faces"
-
-import os
-
-od.download(dataset_url)
-
-path = '/content/140k-real-and-fake-faces/real_vs_fake/real-vs-fake'
-
-def plot_img(path, set_):
-    dir_ = os.path.join(path, 'train', set_)
-    k = 0
-    fig, ax = plt.subplots(3,3, figsize=(10,10))
-    fig.suptitle(set_ + 'Faces')
-    for j in range(3):
-        for i in range(3):
-            img = load_img(os.path.join(dir_, os.listdir(os.path.join(dir_))[k]))          
-            ax[j,i].imshow(img)
-            ax[j,i].set_title("")
-            ax[j,i].axis('off')
-            k +=1
-  #  fig.tight_layout()
-    plt.suptitle(set_ + ' Faces')
-    return plt
-
-plot_img(path, 'real').show()
-
-"""**FAKE SET**"""
-
-plot_img(path, 'fake').show()
-
-"""**Train and Validation Set**"""
-
-bs = 64
-row, col = 224, 224
-train_datagen = ImageDataGenerator(rescale=1./255,
-                                   horizontal_flip=True
-                                  )
-training_set = train_datagen.flow_from_directory(path + '/train',
-                                                 class_mode='binary',
-                                                 shuffle=True,
-                                                 target_size=(row,col),
-                                                 batch_size=bs
-                                                )
-val_test_datagen = ImageDataGenerator(rescale=1./255)
-
-validation_set = val_test_datagen.flow_from_directory(path + '/valid',
-                                                      class_mode='binary',
-                                                      shuffle=True,
-                                                      target_size=(row,col),
-                                                      batch_size=bs
-                                                     ) 
-test_set = val_test_datagen.flow_from_directory(path + '/test',
-                                                class_mode='binary',
-                                                shuffle=True,
-                                                target_size=(row,col),
-                                                batch_size=bs
-                                               )
-training_set.class_indices
-
 """**Model Architecture**"""
 
 def real_block(input, dim, drop_path=0.0):
@@ -113,9 +50,6 @@ def real_block(input, dim, drop_path=0.0):
 
       x = layers.Dense(4 * dim)(x)
       x = layers.BatchNormalization()(x)
-    #   x = layers.ReLU()(x)
-    #   x = layers.DepthwiseConv2D(kernel_size=3, strides=1, padding='same')(x)
-    #   x = layers.BatchNormalization()(x)
       x = layers.ReLU()(x)
       x = layers.Dense(dim)(x)
       #Stochastic depth
@@ -147,7 +81,7 @@ def real_model(input_shape=(224, 224, 3), dims=[96, 192, 384, 768], num_classes=
   # stem
   x = stem(input, dims[0])
 
-  # Convnext stage 1 x3, dim[0] = 64
+  # Stage 1 x3, dim[0] = 64
   for _ in range(1):
     x = real_block(x, dims[0])
 
@@ -170,16 +104,13 @@ def real_model(input_shape=(224, 224, 3), dims=[96, 192, 384, 768], num_classes=
   x = layers.GlobalAvgPool2D()(x)
 
   x = layers.LayerNormalization(epsilon=1e-6)(x)    
-#   x = layers.BatchNormalization() (x)
   x = layers.Dense(units= dims[3], activation='relu') (x)
   x = layers.Dropout(0.2) (x)
   output = layers.Dense(units=num_classes, activation='softmax')(x)
 
-  model = keras.Model(input, output, name='RealNeXt')
+  model = keras.Model(input, output, name='FNet')
 
   return model
-     
-    # x = layers.BatchNormalization(epsilon=1e-06, momentum=0.9, weights=None)
 
 """**Defining Model Checkpoints**"""
 
