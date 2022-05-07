@@ -1,4 +1,4 @@
-# ForensicNet : Modern Deep Learning-based Image Forgery Detection Network
+# ForensicNet : Modern CNN-based Image Forgery Detection Network
 # Abstract
 
 The advancements in Image editing techniques produce realistic-looking artificial images with ease. These images can easily circumvent the forensic systems making the authentication process more tedious and difficult. To overcome this problem, we introduce a modern Convolutional Neural network named ForensicNet inspired by the recent developments in the Computer vision field such as Data augmentation, etc. The three major contributions of our CNNs are inverted bottleneck (inspired by Transformers), separate downsampling layers (inspired by ResNets), and using depthwise convolutions for mixing information in the spatial dimension (inspired by MobileNetV2). 
