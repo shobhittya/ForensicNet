@@ -14,3 +14,7 @@ Accuracy and loss graphs of (a) CASIA and (b) RFF datasets are shown below:
 The Confusion matrix of CASIA (left) and RFF (right) datasets is shown below.
 
 ![CM](https://user-images.githubusercontent.com/37774749/167248464-d14d7b92-3304-4e9b-be7d-a9149532f32e.jpg)
+
+
+Cite the work :
+Shobhit Tyagi, Divakar Yadav. ForensicNet : Modern CNN-based Image Forgery Detection Network, 08 July 2022, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-1802559/v1]
