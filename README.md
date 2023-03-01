@@ -18,4 +18,4 @@ The Confusion matrix of CASIA (left) and RFF (right) datasets is shown below.
 
 Cite this work :
 
-Shobhit Tyagi, Divakar Yadav. ForensicNet : Modern CNN-based Image Forgery Detection Network, 08 July 2022, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-1802559/v1]
+Tyagi, S, Yadav, D. ForensicNet: Modern convolutional neural network-based image forgery detection network. J Forensic Sci. 2023; 00: 1– 9. https://doi.org/10.1111/1556-4029.15210
